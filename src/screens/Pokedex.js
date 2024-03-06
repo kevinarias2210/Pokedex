@@ -11,8 +11,7 @@ Y ahí si esperamos la respuesta de la API
 */
 
 export default function Pokedex(){
-    const [pokemon, setPokemon] = useState([])
-    console.log(pokemon)
+    const [pokemon, setPokemon] = useState([]);
 
     useEffect(() => {
         (async () => {
@@ -34,11 +33,11 @@ export default function Pokedex(){
                     name: pokemonDetail.name,
                     type: pokemonDetail.types[0].type.name,
                     order: pokemonDetail.order,
-                    image: pokemonDetail.sprites.other['dream_world'].front_default
+                    image: pokemonDetail.sprites.other['official-artwork'].front_default
                 })
             }
 
-            setPokemon([...pokemon, ...pokeArray])
+            setPokemon([...pokemon, ...pokeArray]);
         }catch(error){
             console.log(error)
         }
