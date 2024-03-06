@@ -1,9 +1,10 @@
 import { API } from "../utils/constants";
 
-export async function getPokemonApi(){
+export async function getPokemonApi(endPointUrl){
+    console.log(endPointUrl)
     try{
         const url = `${API}/pokemon?limit=20&offset=0`;
-        const response = await fetch(url);
+        const response = await fetch(endPointUrl || url);//Le decimos que al momento de traerla traiga el endpoint o solo la url
         const res = await response.json();
         return res;
     }catch(error){

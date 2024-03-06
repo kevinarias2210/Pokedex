@@ -1,9 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableWithoutFeedback } from "react-native";
 import getColorByPokemonType from "../../utils/getColorByPokemonType";
+import { useNavigation } from "@react-navigation/native";
 
 export function PokemonCard (props) {
     const { pokemon } = props;
+    const navigation = useNavigation();
 
     //Con la función traemos el valor de la función que guarda el objeto y esta función consume la api
     const pokemonColor = getColorByPokemonType(pokemon.type);
@@ -14,7 +16,8 @@ export function PokemonCard (props) {
     }
 
     const goToPokemon = () => {
-        console.log(`Vamos al pokemon: ${pokemon.name}`);
+        console.log(`${pokemon.id}`);
+        navigation.navigate("Pokemon", {id: pokemon.id}); //Los parametros de natigation tienen que ser planos, porque no se pueden mandar objetos, componentes, funciones. Solo datos planos, clave, valor
     }
 
     return(

@@ -12,6 +12,7 @@ Y ahí si esperamos la respuesta de la API
 
 export default function Pokedex(){
     const [pokemon, setPokemon] = useState([]);
+    const [nextUrl, setNextUrl] = useState(null);//Estado inicial en la que no hay nada
 
     useEffect(() => {
         (async () => {
@@ -21,7 +22,8 @@ export default function Pokedex(){
 
     const loadPokemon = async () => {
         try{
-            const response = await getPokemonApi();
+            const response = await getPokemonApi(nextUrl);
+            setNextUrl(response.next);//Estado futuro en la que trae el endpoint
             
             const pokeArray = [];
 
@@ -45,7 +47,7 @@ export default function Pokedex(){
 
     return (
         <SafeAreaView>
-            <PokemonList pokemon={pokemon} />
+            <PokemonList pokemon={pokemon} loadPokemon={loadPokemon} /* isNext={nextUrl} *//>
         </SafeAreaView>
     )
 }
