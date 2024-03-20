@@ -1,9 +1,16 @@
 import React from "react";
 import { View, Text } from "react-native";
+import LoginForm from "../components/Auth/LoginForm";
+import UserData from "../components/Auth/UserData";
 
 
 export default function Account(){
-    <View>
-        <Text>Hola</Text>
-    </View>
+    const auth = null;
+
+    return(
+        <View>
+            {auth ? <UserData /> : <LoginForm />}
+            <Text>Hola</Text>
+        </View>
+    )
 }
