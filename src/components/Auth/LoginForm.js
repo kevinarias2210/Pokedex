@@ -3,11 +3,14 @@ import { View, Text, StyleSheet, TextInput, Keyboard, Button } from "react-nativ
 import { useFormik } from "formik";/*El formik es un paquete para validar formularios o inputs*/
 import * as Yup from "yup";
 import { user, userDatails } from "../../utils/userDB";
+import useAuth from "../../hooks/useAuth";
 
 
 export default function LoginForm (){
     const [error, setError] = useState("");
+    const { login } = useAuth();
 
+    console.log(useAuth());
 
     const formik = useFormik({
         initialValues: initialValues(),
@@ -21,6 +24,7 @@ export default function LoginForm (){
             if( userName !== user.userName || password !== user.password){
                 setError("el usuario o la contraseña no son correcta");
             }else{
+                login(userDatails);
                 console.log("está correcto");
                 console.log(userDatails);
             }
