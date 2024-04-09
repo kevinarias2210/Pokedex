@@ -11,7 +11,7 @@ export default function Account(){
     return(
         <View>
             {auth ? <UserData /> : <LoginForm />}
-            <Text>Hola</Text>
+            {/* <Text>Hola</Text> */}
         </View>
     )
 }
