@@ -1,19 +1,20 @@
 import React from "react";
-import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { addPokemonFavorite } from "../../api/favoriteStorage";
 
 export default function Favorite(props){
-    const addFavorite = () => {
-        const { id } = props;
+    const { id } = props;
 
-        console.log('añadir a favoritos', id);
-    }
+    const addFavorite = async () => {
+        await addPokemonFavorite(id);
+    };
 
     return(
         <Icon
         name="heart" 
         color="#fff" size={20} 
         onPress={addFavorite} 
-        style={{ marginRight: 20, marginTop: 150 }}/>
+        style={{ marginRight: 20, marginTop: 150 }}
+        />
     );
 }
