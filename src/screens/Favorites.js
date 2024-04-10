@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Button } from "react-native";
-import { getPokemonFavorite } from "../api/favoriteStorage";
+import { getPokemonFavorite, isPokemonFavorite } from "../api/favoriteStorage";
 
 
 export default function Favorites(){

@@ -21,3 +21,11 @@ export async function addPokemonFavorite(id){
     }
 };
 
+export async function isPokemonFavorite(id){
+    try{
+        const response = await getPokemonFavorite();
+        return includes([response, id])
+    }catch(error){
+        throw error;
+    }
+};
