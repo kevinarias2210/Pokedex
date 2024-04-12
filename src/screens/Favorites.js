@@ -1,18 +1,43 @@
-import React from "react";
-import { View, Text, Button } from "react-native";
-import { getPokemonFavorite, isPokemonFavorite } from "../api/favoriteStorage";
-
+import React, { useState, useCallback } from "react";
+import { Text } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+import { getPokemonFavorite } from "../api/favoriteStorage";
+import { getPokemonDetails } from "../api/pokemon";
+import useAuth from '../hooks/useAuth';
+import PokemonList from '../components/PokemonList/PokemonList';
 
 export default function Favorites(){
-    const checkFavorites = async () => {
-        const response = await getPokemonFavorite();
-        console.log(response)
-    }
+    const [pokemons, setPokemons] = useState([]);
+    const { auth } = useAuth();
+
+    useFocusEffect(
+        useCallback(() => {
+            if(auth){
+                (async () => {
+                    const response = await getPokemonFavorite();
+    
+                    const pokeArray = [];
+    
+                    for await (const id of response){
+                    const pokemonDetail = await getPokemonDetails(id);
+                    
+                    pokeArray.push({
+                        id: pokemonDetail.id,
+                        name: pokemonDetail.name,
+                        type: pokemonDetail.types[0].type.name,
+                        order: pokemonDetail.order,
+                        image: pokemonDetail.sprites.other['official-artwork'].front_default
+                    })
+                }
+    
+                setPokemons(pokeArray);
+    
+                })();
+            }
+        }, [auth])
+    );
 
     return(
-        <View>
-            <Text>Favorites</Text>
-            <Button title="obtener favoritos" onPress={checkFavorites} />
-        </View>
+        !auth ? <Text>Usuario no logueado</Text> : <PokemonList pokemon={pokemons}/>
     )
 }

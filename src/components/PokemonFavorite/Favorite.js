@@ -1,32 +1,47 @@
 import React, { useState, useEffect } from "react";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { addPokemonFavorite, isPokemonFavorite } from "../../api/favoriteStorage";
+import { addPokemonFavorite, isPokemonFavorite, removePokemonFavorite } from "../../api/favoriteStorage";
 
 export default function Favorite(props){
+    const { id } = props;
+
     const [isFavorite, setIsFavorite] = useState(undefined);
+    const [reloadCheck, setReloadCheck] = useState(false);
+
+    const Icon = isFavorite ? FontAwesome : FontAwesome5;
 
     useEffect(() => {
         (async () => {
             try{
-                const response = await isPokemonFavorite();
+                const response = await isPokemonFavorite(id);
                 setIsFavorite(response);
             }catch(error){
                 setIsFavorite(false);
             }
-        })()
-    }, [id]);
+        })();
+    }, [id, reloadCheck]);
 
-    const Icon = isFavorite ? FontAwesome : FontAwesome5;
-
-    const { id } = props;
-
-    const addFavorite = async () => {
-        await addPokemonFavorite(id);
+    const onReloadCheckFavorite = () => {
+        setReloadCheck((prev) => !prev);
     };
 
-    const removeFavorites = () => {
-        console.log("eliminar favoritos");
+    const addFavorite = async () => {
+        try{
+            await addPokemonFavorite(id);
+            onReloadCheckFavorite();
+        }catch(error){
+            console.log(error);
+        }
+    };
+
+    const removeFavorites = async () => {
+        try{
+            await removePokemonFavorite(id);
+            onReloadCheckFavorite();
+        }catch(error){
+            console.log(error);
+        }
     }
 
     return(

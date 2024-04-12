@@ -24,8 +24,19 @@ export async function addPokemonFavorite(id){
 export async function isPokemonFavorite(id){
     try{
         const response = await getPokemonFavorite();
-        return includes([response, id])
+        return includes(response, id)
     }catch(error){
         throw error;
     }
 };
+
+export async function removePokemonFavorite(id){
+    try{
+        const favorites = await getPokemonFavorite();
+        const newFavorites = pull(favorites, id);
+
+        await AsyncStorage.setItem(FAVORITE_STORAGE, JSON.stringify(newFavorites));
+    }catch(error){
+        throw error;
+    }
+}

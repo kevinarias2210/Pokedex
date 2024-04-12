@@ -18,7 +18,7 @@ export async function getPokemonDetailsApi(url){
         const data = await response.json();
         return data;
     }catch(error){
-        console.log(error)
+        throw(error)
     }
 }
 
@@ -29,6 +29,6 @@ export async function getPokemonDetails(id){
         const data = await response.json();
         return data;
     }catch(error){
-        console.log(error);
+        throw(error);
     }
 }
