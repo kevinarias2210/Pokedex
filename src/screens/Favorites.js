@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from "react";
-import { Text } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { getPokemonFavorite } from "../api/favoriteStorage";
 import { getPokemonDetails } from "../api/pokemon";
 import useAuth from '../hooks/useAuth';
 import PokemonList from '../components/PokemonList/PokemonList';
+import NoLogged from "../components/NoLogged/NoLogged";
 
 export default function Favorites(){
     const [pokemons, setPokemons] = useState([]);
@@ -37,7 +37,9 @@ export default function Favorites(){
         }, [auth])
     );
 
-    return(
-        !auth ? <Text>Usuario no logueado</Text> : <PokemonList pokemon={pokemons}/>
-    )
+    return !auth ? (
+        <NoLogged />
+    ) : ( 
+    <PokemonList pokemon={pokemons} /> 
+    );
 }

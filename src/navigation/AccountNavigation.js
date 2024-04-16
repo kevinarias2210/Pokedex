@@ -8,8 +8,10 @@ export default function AccountNavigation(){
     return(
         <Stack.Navigator>
             <Stack.Screen name="Cuenta" component={Account} options={{
-                title: "Cuenta",
+                title: "",
+                headerTransparent: true
             }}/>
+
         </Stack.Navigator>
     )
 }

@@ -1,31 +1,48 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+import { size } from "lodash";
 import useAuth from '../../hooks/useAuth';
+import { getPokemonFavorite } from "../../api/favoriteStorage";
 
 export default function UserData(){
     const { auth, logOut } = useAuth();
+    const [ total, setTotal ] = useState(0);
+
+    useFocusEffect(
+        useCallback(() => {
+            (async () => {
+                try{
+                    const response = await getPokemonFavorite();
+                    setTotal(size(response));
+                }catch(error){
+                    setTotal(0);
+                }
+            })()
+        },[])
+    )
     
     return(
-        <View>
-            <View style= {styles.content}>
+        <View style={styles.user}>
+            <View style={styles.content}>
 
-                <View style= {styles.titleBlock}>
-                    <Text style= {styles.title}>Bienvenido</Text>
-                    <Text tyle= {styles.title}>
+                <View style={styles.titleBlock}>
+                    <Text style={styles.title}>Bienvenido</Text>
+                    <Text style={styles.titleName}>
                         {`${auth.firtsname} ${auth.lastName}`}
                     </Text>
                 </View>
 
-                <View style= {styles.DataContent}>
-                    <Text>
+                <View style={styles.DataContent}>
+                    <Text style= {styles.info}>
                         <ItemMenu title="Nombre" text={`${auth.firtsname} ${auth.lastName}`} />
                         <ItemMenu title="UserName" text={`${auth.userName}`} />
                         <ItemMenu title="Email" text={`${auth.email}`} />
-                        <ItemMenu title="Total Favoritos" text={`0 Pokemons`} />
+                        <ItemMenu title="Total Favoritos" text={`${total} Pokemons`} />
                     </Text>
                 </View>
 
-                <Button title="Desconectarse" onPress={logOut} style={styles.btnLogOut}/>
+                <Button title="Desconectarse" onPress={logOut} style={styles.btnLogOut} color={"black"}/>
             </View>
         </View>
     )
@@ -37,14 +54,23 @@ function ItemMenu (props) {
     return(
         <View style={styles.itemMenu}>
             <Text style={styles.itemMenuTitle}>{title}</Text>
-            <Text>{text}</Text>
+            <Text style={styles.info}>{text}</Text>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    user: {
+        height: "100vh",
+        backgroundColor: "#FF4034"
+    },
+
     content: {
-        marginTop: 20,
+        height: "100%",
+        display: "flex",
+        justifyContent: "flex-start",
+        alignItems: "flex-start",
+        marginTop: 90,
         marginHorizontal: 20,
     },
 
@@ -54,8 +80,15 @@ const styles = StyleSheet.create({
 
     title: {
         fontWeight: "bold",
-        fontSize: 22
+        fontSize: 30,
+        color: "white"
     },
+
+    titleName:{
+        fontWeight: "300",
+        fontSize: 25,
+        color: "black"
+    },  
 
     DataContent: {
         marginBottom: 20,
@@ -70,7 +103,14 @@ const styles = StyleSheet.create({
     itemMenuTitle: {
         width: 120,
         paddingRight: 10,
+        fontSize: 18,
         fontWeight: "bold",
+        color: "white"
+    },
+
+    info:{
+        fontSize: 18,
+        fontWeight: "300"
     },
 
     btnLogOut: {

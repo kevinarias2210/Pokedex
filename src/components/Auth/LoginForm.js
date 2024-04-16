@@ -33,33 +33,41 @@ export default function LoginForm (){
 
 
     return(
-        <View>
-            <Text style={style.title}>Iniciar Sesion</Text>
-            
-            <TextInput style={style.input} 
-            placeholder="Nombre de usuario" 
-            autoCapitalize="none"
-            value={formik.values.userName}
-            onChangeText={(text) => formik.setFieldValue('userName', text)}
-            />{/* la propiedad autoCapitalize hace que la primera letra del texto sea minuscula. 
-            Toda informacion que se pase al formik llegará como parametro en el valor onSubmit */}
-            
-            <Text style={style.error}>{formik.errors.userName}</Text>
+        <View style={style.login}>
+            <View style={style.login__Container}>
+                <Text style={style.title}>Iniciar Sesión</Text>
+                
+                <View>
+                    <TextInput style={style.input} 
+                    placeholder="Nombre de usuario" 
+                    autoCapitalize="none"
+                    value={formik.values.userName}
+                    onChangeText={(text) => formik.setFieldValue('userName', text)}
+                    placeholderTextColor={'white'}
+                    />{/* la propiedad autoCapitalize hace que la primera letra del texto sea minuscula. 
+                    Toda informacion que se pase al formik llegará como parametro en el valor onSubmit */}
+                    
+                    <Text style={style.error}>{formik.errors.userName}</Text>
 
-            <TextInput style={style.input} 
-            placeholder="Contraseña" 
-            autoCapitalize="none" 
-            secureTextEntry={true}
-            value={formik.values.password}
-            onChangeText={(text) => formik.setFieldValue('password', text)}/>{/* El secureTextEntry sirve para ocultar el texto con puntos.*/}
-            
-            <Text style={style.error}>{formik.errors.password}</Text>
+                    <TextInput style={style.input} 
+                    placeholder="Contraseña" 
+                    autoCapitalize="none" 
+                    secureTextEntry={true}
+                    value={formik.values.password}
+                    onChangeText={(text) => formik.setFieldValue('password', text)}
+                    placeholderTextColor={'white'}
+                    />{/* El secureTextEntry sirve para ocultar el texto con puntos.*/}
+                    
+                    <Text style={style.error}>{formik.errors.password}</Text>
+                </View>
 
-            <Button style={style.button} 
-            title="Entrar" 
-            onPress={formik.handleSubmit}/>
-            
-            <Text style={style.error}>{error}</Text>
+                <Button style={style.button} 
+                title="Entrar" 
+                onPress={formik.handleSubmit}
+                color={"black"}/>
+                
+                <Text style={style.error}>{error}</Text>
+            </View>
 
         </View>
     )
@@ -80,26 +88,40 @@ function validationSchema(){
 };
 
 const style = StyleSheet.create({
+    login: {
+        height: "100vh",
+        backgroundColor: "#FF4034"
+    },
+
+    login__Container: {
+        height: "100%",
+        display: "flex",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+        flexDirection: "column"
+    },
+
     title: {
-        textAlign: "center",
+        marginTop: 50,
+        marginBottom: 15,
         fontSize: 28,
         fontWeight: "bold",
-        marginTop: 50,
-        marginBottom: 15
+        textAlign: "center",
+        color: "white"
     },
 
     input: {
         height: 40,
-        margin: 12,
         padding: 10,
-        borderWidth: 1,
-        borderRadius: 10
+        fontSize: 16,
+        borderBottomWidth: 1,
+        borderColor: "white"
     },
 
     error: {
         margin: 10,
         textAlign: "center",
-        color: "red",
+        color: "black",
     },
 
     button:{
